@@ -65,6 +65,7 @@ likes_map = {}
 for member_i in group_members:
   user_id_i = member_i['user_id']
   likes_map[user_id_i] = {"all": 0}
+  likes_map[user_id_i]['given'] = 0
   for member_j in group_members:
     user_id_j = member_j['user_id']
     likes_map[user_id_i][user_id_j] = 0
@@ -95,6 +96,7 @@ while True:
         continue
 
       likes_map[message_user_id]['all'] = likes_map[message_user_id]['all'] + 1
+      likes_map[favorite]['given'] = likes_map[favorite]['given'] + 1
       likes_map[message_user_id][favorite] = likes_map[message_user_id][favorite] + 1
       
   messages_url = messages_endpoint + "&" + message_limit_field + "&before_id=" + last_message_id
@@ -110,10 +112,12 @@ print "\n\n"
 for member in group_members:
   member_id = member['user_id']
   member_likes = likes_map[member_id]
-  print member['nickname'] + ": " + str(member_likes['all'])
+  print member['nickname']
+  print "\tnum likes: " + str(member_likes['all'])
+  print "\tlikes given: " + str(member_likes['given'])
 
   for key, val in member_likes.iteritems():
-    if key == "all":
+    if key == "all" or key == 'given':
       continue
     print "\t" + group_members_dict[key] + ": " + str(val)
 
