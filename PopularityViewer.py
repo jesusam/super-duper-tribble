@@ -1,7 +1,13 @@
 import requests
 import json
 
-
+# Helper functions
+def getInput(prompt, vals):
+  value = input(prompt)
+  while not value in vals:
+    print("Invalid input. Try again.")
+    value = input(prompt)
+  return value
 
 
 # HACK: Need to obfuscate this
@@ -33,14 +39,12 @@ while True:
 
 print "Showing " + str(len(groups)) + " groups"
 print "----------------------------------"
-for group in groups:
-  print group['name']
-
-
-
+for i in range(0, len(groups)):
+  print str(i) + ": " +groups[i]['name']
 
 # TODO: Have user select a group
-selected_group = groups[0]
+selected_ind = getInput("Select a group by its given number: ", range(0, len(groups)))
+selected_group = groups[selected_ind]
 
 # Fetch group members
 group_members = selected_group['members']
